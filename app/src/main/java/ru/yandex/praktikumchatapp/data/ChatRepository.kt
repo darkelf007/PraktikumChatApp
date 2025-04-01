@@ -25,7 +25,7 @@ class ChatRepository(
                 }
             }
     }
-//
+
     private fun Long.pow(exp: Int): Long {
         return when {
             exp < 0 -> 0L
