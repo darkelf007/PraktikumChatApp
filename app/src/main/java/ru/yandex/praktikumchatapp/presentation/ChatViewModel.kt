@@ -21,9 +21,15 @@ class ChatViewModel(
     init {
         viewModelScope.launch {
             while (isWithReplies) {
-                repository.getReplyMessage().collect { response ->
+                try {
+                    repository.getReplyMessage().collect { response ->
+                        _messages.update { currentMessages ->
+                            currentMessages + Message.OtherMessage(response)
+                        }
+                    }
+                } catch (e: Exception) {
                     _messages.update { currentMessages ->
-                        currentMessages + Message.OtherMessage(response)
+                        currentMessages + Message.OtherMessage("Ошибка соединения")
                     }
                 }
             }
